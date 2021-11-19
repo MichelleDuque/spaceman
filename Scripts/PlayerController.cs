@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 
     //Variables  del movimiento del personaje
     public float jumpForce = 6f;
+    public float runningSpeed = 2f;
     Rigidbody2D rigidBody;
     Animator animator;
 
@@ -42,6 +43,16 @@ public class PlayerController : MonoBehaviour
         Debug.DrawRay(this.transform.position, Vector2.down * 1.5f, Color.red);
     }
 
+    void FixedUpdate()
+    {
+        if (rigidBody.velocity.x < runningSpeed)
+        {
+            rigidBody.velocity = new Vector2(runningSpeed, //x 
+                                            rigidBody.velocity.y); //y
+        }
+    }
+
+
     //Activar saltar
     void Jump()
     {
@@ -58,13 +69,11 @@ public class PlayerController : MonoBehaviour
         if (Physics2D.Raycast(this.transform.position, Vector2.down, 1.5f, groundMask))
         {
             //TODO: programar logica de contacto con el suelo
-            animator.enabled = true;
             return true;
         }
         else
         {
             //TODO: programar logica de no contacto
-            animator.enabled = false;
             return false;
         }
     }
