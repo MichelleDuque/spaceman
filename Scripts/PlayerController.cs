@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+        if (Input.GetButtonDown("Jump"))
         {
             Jump();
         }
@@ -45,31 +45,41 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate() // un update que funciona a ritmo fijo, que no se retraza y no acelera 
     {
-        if (Input.GetKey(KeyCode.RightArrow)) //Movimiento del personaje
+        if (GameManager.sharedInstance.currentGameState == GameState.inGame)
         {
-            rigidBody.velocity = new Vector2(runningSpeed, // eje x
-                                             rigidBody.velocity.y // eje y
-                                             );
-            transform.localScale = new Vector2(1f, 1f);
-        }
+            if (Input.GetKey(KeyCode.RightArrow)) //Movimiento del personaje
+            {
+                rigidBody.velocity = new Vector2(runningSpeed, // eje x
+                                                rigidBody.velocity.y // eje y
+                                                );
+                transform.localScale = new Vector2(1f, 1f);
+            }
 
-        if (Input.GetKey(KeyCode.LeftArrow))
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                rigidBody.velocity = new Vector2(runningSpeed * -1, rigidBody.velocity.y);
+
+                transform.localScale = new Vector2(-1f, 1f);
+
+            }
+        }
+        else // si no estamos dentro de la partida
         {
-            rigidBody.velocity = new Vector2(runningSpeed * -1, rigidBody.velocity.y);
-
-            transform.localScale = new Vector2(-1f, 1f);
+            rigidBody.velocity = new Vector2(0, rigidBody.velocity.y);
 
         }
-
     }
 
 
     //Activar saltar
     void Jump()
     {
-        if (IsTouchingTheGround())
+        if (GameManager.sharedInstance.currentGameState == GameState.inGame)
         {
-            rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            if (IsTouchingTheGround())
+            {
+                rigidBody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            }
         }
     }
 
@@ -79,12 +89,10 @@ public class PlayerController : MonoBehaviour
     {
         if (Physics2D.Raycast(this.transform.position, Vector2.down, 1.5f, groundMask))
         {
-            //TODO: programar logica de contacto con el suelo
             return true;
         }
         else
         {
-            //TODO: programar logica de no contacto
             return false;
         }
     }
