@@ -43,13 +43,24 @@ public class PlayerController : MonoBehaviour
         Debug.DrawRay(this.transform.position, Vector2.down * 1.5f, Color.red);
     }
 
-    void FixedUpdate()
+    private void FixedUpdate() // un update que funciona a ritmo fijo, que no se retraza y no acelera 
     {
-        if (rigidBody.velocity.x < runningSpeed)
+        if (Input.GetKey(KeyCode.RightArrow)) //Movimiento del personaje
         {
-            rigidBody.velocity = new Vector2(runningSpeed, //x 
-                                            rigidBody.velocity.y); //y
+            rigidBody.velocity = new Vector2(runningSpeed, // eje x
+                                             rigidBody.velocity.y // eje y
+                                             );
+            transform.localScale = new Vector2(1f, 1f);
         }
+
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            rigidBody.velocity = new Vector2(runningSpeed * -1, rigidBody.velocity.y);
+
+            transform.localScale = new Vector2(-1f, 1f);
+
+        }
+
     }
 
 

@@ -224,6 +224,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpForce: 6
+  runningSpeed: 2
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!50 &2024743809
 Rigidbody2D:
   serializedVersion: 4
@@ -315,6 +319,10 @@ PrefabInstance:
     - target: {fileID: 2225551434011209574, guid: dcfe2f8329d8fa3409b99e9a524ac336, type: 3}
       propertyPath: m_Name
       value: platform-5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2225551434011209574, guid: dcfe2f8329d8fa3409b99e9a524ac336, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dcfe2f8329d8fa3409b99e9a524ac336, type: 3}
